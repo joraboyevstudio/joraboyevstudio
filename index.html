@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>joraboyevstudio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: none !important;
+            outline: none !important;
+        }
+        *:focus {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            color: #1a1225;
+            padding: 30px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: none !important;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #c44b6b, #a13554);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .logo span {
+            font-weight: 300;
+            -webkit-text-fill-color: #7a5a67;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: none !important;
+            border-radius: 40px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #2d1f24;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 120px;
+            justify-content: center;
+        }
+        .lang-btn:hover {
+            background: #fdf6f8;
+            transform: scale(1.02);
+        }
+        .lang-btn .arrow {
+            font-size: 10px;
+            transition: 0.3s;
+            margin-left: 4px;
+        }
+        .lang-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+        .lang-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px) scale(0.96);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 100;
+            min-width: 140px;
+            border: none !important;
+        }
+        .lang-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        .lang-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1a1225;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none !important;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        .lang-menu-item:hover {
+            background: #fdf6f8;
+            color: #c44b6b;
+        }
+        .lang-menu-item.active-lang {
+            background: #fdf0f5;
+            color: #c44b6b;
+            font-weight: 700;
+        }
+        .lang-menu-item .flag {
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 35px;
+        }
+        .nav-link {
+            background: #fff;
+            border: none !important;
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+            color: #2d1f24;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .nav-link:hover {
+            background: #fdf6f8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196,75,107,0.15);
+        }
+        .nav-link.active {
+            background: #c44b6b;
+            color: #fff;
+            box-shadow: 0 6px 20px rgba(196,75,107,0.3);
+        }
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 28px;
+        }
+        .catalog-grid.hidden {
+            display: none;
+        }
+        .card-item {
+            background: #fff;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            border: none !important;
+            animation: cardFadeIn 0.8s ease both;
+        }
+        .card-item:nth-child(1) { animation-delay: 0.05s; }
+        .card-item:nth-child(2) { animation-delay: 0.12s; }
+        .card-item:nth-child(3) { animation-delay: 0.19s; }
+        .card-item:nth-child(4) { animation-delay: 0.26s; }
+        .card-item:nth-child(5) { animation-delay: 0.33s; }
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .card-item:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+        .card-img {
+            height: 200px;
+            background: #f0e8e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            position: relative;
+            transition: 0.3s;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.3s;
+        }
+        .card-item:hover .card-img img {
+            transform: scale(1.05);
+        }
+        .card-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            background: #c44b6b;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: badgePulse 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(196,75,107,0.4);
+            pointer-events: none;
+        }
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); box-shadow: 0 4px 25px rgba(196,75,107,0.6); }
+        }
+        .card-info {
+            padding: 18px 20px 22px;
+        }
+        .card-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            transition: 0.3s;
+        }
+        .card-item:hover .card-title {
+            color: #c44b6b;
+        }
+        .card-desc {
+            font-size: 13px;
+            color: #7a5a67;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            font-weight: 400;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .price {
+            font-weight: 700;
+            font-size: 16px;
+            color: #2d1f24;
+        }
+        .price small {
+            font-weight: 400;
+            font-size: 11px;
+            color: #a18490;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+        .buy-btn {
+            background: #2d1f24;
+            color: #fff;
+            border: none !important;
+            padding: 12px 28px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+            margin-left: 0;
+            box-shadow: 0 4px 16px rgba(45,31,36,0.15);
+        }
+        .buy-btn:hover {
+            background: #c44b6b;
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(196,75,107,0.4);
+        }
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1a1225;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            pointer-events: none;
+            z-index: 99;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            white-space: nowrap;
+        }
+        #toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .contact-section {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+            background: #fff;
+            border-radius: 32px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+            border: none !important;
+        }
+        .contact-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .contact-section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #1a1225;
+            margin-bottom: 12px;
+        }
+        .contact-section p {
+            color: #64748b;
+            font-size: 16px;
+            margin-bottom: 32px;
+        }
+        .contact-section .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            max-width: 360px;
+            margin: 0 auto;
+        }
+        .contact-section .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            width: 100%;
+            padding: 16px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 18px;
+            text-decoration: none;
+            color: #fff;
+            transition: 0.3s;
+            border: none !important;
+        }
+        .contact-section .social-link:hover {
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .contact-section .social-link svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
+            flex-shrink: 0;
+        }
+        .contact-section .social-link.telegram { background: #0088cc; }
+        .contact-section .social-link.instagram { background: #e1306c; }
+        .contact-section .social-link.whatsapp { background: #25d366; }
+
+        .img-preview-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            cursor: pointer;
+        }
+        .img-preview-overlay.active {
+            display: flex;
+        }
+        .img-preview-overlay img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: zoomIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .img-preview-overlay .close-preview {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 42px;
+            color: #fff;
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+            border: none !important;
+        }
+        .img-preview-overlay .close-preview:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 600px) {
+            header { flex-direction: column; align-items: start; }
+            .catalog-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+            .card-img { height: 140px; font-size: 40px; }
+            .card-info { padding: 12px 14px 16px; }
+            .card-title { font-size: 14px; }
+            .nav-links { width: 100%; justify-content: center; }
+            .header-right { width: 100%; justify-content: flex-start; }
+            .contact-section h2 { font-size: 24px; }
+            .price { font-size: 14px; }
+            .buy-btn { font-size: 13px; padding: 10px 20px; }
+            .lang-btn { min-width: 100px; font-size: 12px; padding: 6px 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">jora<span>boyev</span>studio</div>
+            <div class="header-right">
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-btn" id="langBtn">
+                        <span id="currentLangText">🇺🇿 O'zbekcha</span>
+                        <span class="arrow" id="langArrow">▾</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <button class="lang-menu-item active-lang" data-lang="uz">
+                            <span class="flag">🇺🇿</span> O'zbekcha
+                        </button>
+                        <button class="lang-menu-item" data-lang="en">
+                            <span class="flag">🇬🇧</span> English
+                        </button>
+                        <button class="lang-menu-item" data-lang="ru">
+                            <span class="flag">🇷🇺</span> Русский
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="nav-links" id="navLinks">
+            <button class="nav-link active" data-section="services">Xizmatlar</button>
+            <button class="nav-link" data-section="contact">Bog'lanish</button>
+        </div>
+
+        <div class="catalog-grid" id="catalogGrid"></div>
+
+        <div class="contact-section" id="contactSection">
+            <h2 id="contactTitle">📬 Biz bilan bog'lanish</h2>
+            <p id="contactDesc">Quyidagi ijtimoiy tarmoqlar orqali bizga yozing — 24 soat ichida javob beramiz.</p>
+            <div class="social-links">
+                <a href="https://t.me/joraboyevvvcc" target="_blank" class="social-link telegram">
+                    <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                    Telegram
+                </a>
+                <a href="https://instagram.com/joraboyevstudio" target="_blank" class="social-link instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                    Instagram
+                </a>
+                <a href="https://wa.me/998945543700" target="_blank" class="social-link whatsapp">
+                    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <div class="img-preview-overlay" id="imgPreviewOverlay">
+        <button class="close-preview" id="closePreviewBtn">✕</button>
+        <img id="previewImage" src="" alt="preview">
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- JAVASCRIPT QISMI (2-QISM) -->
+    <!-- ============================================================ -->
+    <script>
+      // ============================================================
+//  MAHSULOTLAR
+// ============================================================
+const products = [
+    { 
+        id: 1, 
+        name: "With Love", 
+        desc: "Lisa tercinta uchun maxsus dizayn", 
+        price: 4.99, 
+        oldPrice: 9.99, 
+        image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778627086/IMG_3357_b6yk8r.jpg", 
+        badge: "Romantic" 
+    },
+    { 
+        id: 2, 
+        name: "TAP EACH CANDLE", 
+        desc: "us that one summer — interaktiv sham", 
+        price: 5.99, 
+        oldPrice: 10, 
+        image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778254234/IMG_3292_imwa5x.jpg", 
+        badge: "Birthday" 
+    },
+    { 
+        id: 3, 
+        name: "BRANKAS RAHASIA", 
+        desc: "STATUS: TERKUNCI — maxfiy xabar", 
+        price: 7.99, 
+        oldPrice: 15, 
+        image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1772636369/122_j62oma.jpg", 
+        badge: "Exclusive" 
+    },
+    { 
+        id: 4, 
+        name: "Love 3D", 
+        desc: "Interaktiv 3D sevgi kartasi", 
+        price: 7.99, 
+        oldPrice: 9.99, 
+        image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1773268826/love3d-preview_uubog2.jpg", 
+        badge: "Popular" 
+    },
+    { 
+        id: 5, 
+        name: "Telegram bot", 
+        desc: "Noyob dizaynli telegram bot", 
+        price: 15, 
+        oldPrice: 50, 
+        image: "https://i.pinimg.com/736x/3d/09/9c/3d099cc33f0c86d9385f6ba7ae505e4c.jpg", 
+        badge: "Telegram-Bot" 
+    },
+    { 
+        id: 6, 
+        name: "Kviz", 
+        desc: "Maxsus kolleksiya — noyob dizayn", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "kviz.jpg", 
+        badge: "Kviz" 
+    },
+    { 
+        id: 7, 
+        name: "Kalkulyator", 
+        desc: "Maxsus kalkulyator mobil ilova", 
+        price: 3.99, 
+        oldPrice: 7, 
+        image: "kalkulyator.jpg", 
+        badge: "Mobil-App" 
+    },
+    { 
+        id: 8, 
+        name: "Love", 
+        desc: "Maxsus kolleksiya — noyob dizayn", 
+        price: 1.99, 
+        oldPrice: 5, 
+        image: "sertsa.jpg", 
+        badge: "Love" 
+    },
+    { 
+        id: 9, 
+        name: "Mobil-game", 
+        desc: "Maxsus kolleksiya — noyon oyin", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "robot.jpg", 
+        badge: "Mobil-Game" 
+    },
+    { 
+        id: 10, 
+        name: "Game", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "oyin.jpg", 
+        badge: "Mobil-Game" 
+    },
+    { 
+        id: 11, 
+        name: "NewYear", 
+        desc: "Maxsus kolleksiya — noyob dizayn", 
+        price: 0.99, 
+        oldPrice: 7, 
+        image: "newyear.jpg", 
+        badge: "Happy new year" 
+    },
+    { 
+        id: 12, 
+        name: "Kviz", 
+        desc: "Maxsus kolleksiya — noyob dizayn", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "kvizz.jpg", 
+        badge: "Kviz" 
+    },
+    { 
+        id: 13, 
+        name: "Kalkulyator", 
+        desc: "Maxsus kolleksiya — noyob dizayn", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "black.jpg", 
+        badge: "Mobil-App" 
+    },
+    { 
+        id: 14, 
+        name: "Mobil-game", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "match.jpg", 
+        badge: "Mobil-Game" 
+    },
+    { 
+        id: 15, 
+        name: "Mobil-game", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "moshina.jpg", 
+        badge: "Mobil-Game" 
+    },
+    { 
+        id: 16, 
+        name: "Mobil-game", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 4.99, 
+        oldPrice: 7, 
+        image: "xokkey.jpg", 
+        badge: "Mobil-Game" 
+    },
+    { 
+        id: 17, 
+        name: "Astronomia", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 1.99, 
+        oldPrice: 7, 
+        image: "koinot.jpg", 
+        badge: "Astronomiya" 
+    },
+    { 
+        id: 18, 
+        name: "Love", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 0.99, 
+        oldPrice: 5, 
+        image: "love.jpg", 
+        badge: "Love" 
+    },
+    { 
+        id: 19, 
+        name: "Xat", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 3.99, 
+        oldPrice: 7, 
+        image: "xat.jpg", 
+        badge: "Xat" 
+    },
+    { 
+        id: 20, 
+        name: "Eart", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 1.99, 
+        oldPrice: 7, 
+        image: "earth.jpg", 
+        badge: "Astronomiya" 
+    },
+    { 
+        id: 21, 
+        name: "Love", 
+        desc: "Maxsus kolleksiya — noyob oyin", 
+        price: 0.99, 
+        oldPrice: 5, 
+        image: "you.jpg", 
+        badge: "Love" 
+    },
+];
+
+// ============================================================
+//  TARJIMALAR
+// ============================================================
+const translations = {
+    uz: {
+        services: "Xizmatlar",
+        contact: "Bog'lanish",
+        contactTitle: "📬 Biz bilan bog'lanish",
+        contactDesc: "Quyidagi ijtimoiy tarmoqlar orqali bizga yozing — 24 soat ichida javob beramiz.",
+        buyBtn: "Buyurtma berish",
+        toastOrder: "✅ \"{name}\" — buyurtma qabul qilindi!",
+        langLabel: "O'zbekcha"
+    },
+    en: {
+        services: "Services",
+        contact: "Contact",
+        contactTitle: "📬 Contact Us",
+        contactDesc: "Reach us via social media — we reply within 24 hours.",
+        buyBtn: "Order Now",
+        toastOrder: "✅ \"{name}\" — order received!",
+        langLabel: "English"
+    },
+    ru: {
+        services: "Услуги",
+        contact: "Контакты",
+        contactTitle: "📬 Свяжитесь с нами",
+        contactDesc: "Напишите нам в соцсетях — мы отвечаем в течение 24 часов.",
+        buyBtn: "Заказать",
+        toastOrder: "✅ \"{name}\" — заказ принят!",
+        langLabel: "Русский"
+    }
+};
+
+let currentLang = 'uz';
+
+// ============================================================
+//  DOM elementlari
+// ============================================================
+const grid = document.getElementById('catalogGrid');
+const contactSection = document.getElementById('contactSection');
+const navLinks = document.querySelectorAll('.nav-link');
+const contactTitle = document.getElementById('contactTitle');
+const contactDesc = document.getElementById('contactDesc');
+const langBtn = document.getElementById('langBtn');
+const langMenu = document.getElementById('langMenu');
+const langArrow = document.getElementById('langArrow');
+const currentLangText = document.getElementById('currentLangText');
+const langItems = document.querySelectorAll('.lang-menu-item');
+
+const previewOverlay = document.getElementById('imgPreviewOverlay');
+const previewImage = document.getElementById('previewImage');
+const closePreviewBtn = document.getElementById('closePreviewBtn');
+
+// ============================================================
+//  TIL TANLASH DROPDOWN
+// ============================================================
+langBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    langMenu.classList.toggle('active');
+    langArrow.classList.toggle('open');
+});
+
+document.addEventListener('click', function() {
+    langMenu.classList.remove('active');
+    langArrow.classList.remove('open');
+});
+
+langItems.forEach(item => {
+    item.addEventListener('click', function() {
+        const lang = this.dataset.lang;
+        setLanguage(lang);
+        langMenu.classList.remove('active');
+        langArrow.classList.remove('open');
+        langItems.forEach(i => i.classList.remove('active-lang'));
+        this.classList.add('active-lang');
+        currentLangText.innerHTML = this.innerHTML;
+    });
+});
+
+// ============================================================
+//  TILNI O'ZGARTIRISH FUNKSIYASI
+// ============================================================
+function setLanguage(lang) {
+    currentLang = lang;
+    const t = translations[lang];
+
+    document.querySelector('.nav-link[data-section="services"]').textContent = t.services;
+    document.querySelector('.nav-link[data-section="contact"]').textContent = t.contact;
+
+    contactTitle.textContent = t.contactTitle;
+    contactDesc.textContent = t.contactDesc;
+
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.textContent = t.buyBtn;
+    });
+
+    window._lang = lang;
+}
+
+// ============================================================
+//  RENDER
+// ============================================================
+function renderCatalog() {
+    const t = translations[currentLang];
+    grid.innerHTML = products.map(p => `
+        <div class="card-item" data-id="${p.id}">
+            <div class="card-img" data-image="${p.image}">
+                <img src="${p.image}" alt="${p.name}" loading="lazy" />
+                ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+            </div>
+            <div class="card-info">
+                <div class="card-title">${p.name}</div>
+                <div class="card-desc">${p.desc}</div>
+                <div class="card-footer">
+                    <div class="price">$${p.price.toFixed(2)} ${p.oldPrice ? `<small>$${p.oldPrice.toFixed(2)}</small>` : ''}</div>
+                    <button class="buy-btn" data-id="${p.id}">${t.buyBtn}</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    document.querySelectorAll('.card-img').forEach(imgContainer => {
+        imgContainer.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const imgSrc = this.dataset.image || this.querySelector('img')?.src;
+            if (imgSrc) {
+                openImagePreview(imgSrc);
+            }
+        });
+    });
+
+    document.querySelectorAll('.buy-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const id = parseInt(this.dataset.id);
+            const product = products.find(p => p.id === id);
+            if (product) {
+                const t = translations[currentLang];
+                showToast(t.toastOrder.replace('{name}', product.name));
+                switchToContact();
+            }
+        });
+    });
+}
+
+// ============================================================
+//  IMAGE PREVIEW (FULLSCREEN)
+// ============================================================
+function openImagePreview(src) {
+    previewImage.src = src;
+    previewOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImagePreview() {
+    previewOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    previewImage.src = '';
+}
+
+previewOverlay.addEventListener('click', function(e) {
+    if (e.target === this || e.target === closePreviewBtn) {
+        closeImagePreview();
+    }
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && previewOverlay.classList.contains('active')) {
+        closeImagePreview();
+    }
+});
+
+// ============================================================
+//  BO'LIMLARNI ALMASHTIRISH
+// ============================================================
+function switchToServices() {
+    grid.classList.remove('hidden');
+    contactSection.classList.remove('active');
+    navLinks.forEach(b => b.classList.remove('active'));
+    document.querySelector('.nav-link[data-section="services"]').classList.add('active');
+}
+
+function switchToContact() {
+    grid.classList.add('hidden');
+    contactSection.classList.add('active');
+    navLinks.forEach(b => b.classList.remove('active'));
+    document.querySelector('.nav-link[data-section="contact"]').classList.add('active');
+}
+
+// ============================================================
+//  NAV LINK EVENTLARI
+// ============================================================
+navLinks.forEach(btn => {
+    btn.addEventListener('click', function() {
+        const section = this.dataset.section;
+        if (section === 'services') {
+            switchToServices();
+        } else if (section === 'contact') {
+            switchToContact();
+        }
+    });
+});
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+renderCatalog();
+setLanguage('uz');
+    </script>
+</body>
+</html>
