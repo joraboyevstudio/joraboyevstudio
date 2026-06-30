@@ -1,11 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="uz">
 <head>
   <style>
-    /* ============================================
-   ROOT & RESET
-   ============================================ */
-:root {
+    :root {
     --color-primary: #c44b6b;
     --color-primary-dark: #a13554;
     --color-primary-light: #fdf2f8;
@@ -47,15 +45,10 @@ body {
     min-height: 100vh;
     line-height: 1.6;
 }
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
 }
-
-/* ============================================
-   HEADER
-   ============================================ */
 .header {
     display: flex;
     justify-content: space-between;
@@ -92,10 +85,6 @@ body {
     gap: 12px;
     flex-wrap: wrap;
 }
-
-/* ============================================
-   LANGUAGE DROPDOWN
-   ============================================ */
 .lang-dropdown {
     position: relative;
     display: inline-block;
@@ -177,10 +166,6 @@ body {
 .lang-dropdown__item .flag {
     font-size: 18px;
 }
-
-/* ============================================
-   NAVIGATION
-   ============================================ */
 .nav {
     display: flex;
     gap: 12px;
@@ -211,10 +196,6 @@ body {
     color: var(--color-white);
     box-shadow: 0 8px 25px rgba(196,75,107,0.3);
 }
-
-/* ============================================
-   CATALOG
-   ============================================ */
 .catalog {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -223,7 +204,6 @@ body {
 .catalog.hidden {
     display: none;
 }
-
 .catalog__item {
     background: var(--color-white);
     border-radius: var(--radius);
@@ -243,12 +223,10 @@ body {
     from { opacity: 0; transform: translateY(40px) scale(0.96); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 .catalog__item:hover {
     transform: translateY(-10px) scale(1.01);
     box-shadow: 0 20px 50px var(--color-shadow-hover);
 }
-
 .catalog__img {
     height: 200px;
     background: var(--color-border);
@@ -268,7 +246,6 @@ body {
 .catalog__item:hover .catalog__img img {
     transform: scale(1.08);
 }
-
 .catalog__badge {
     position: absolute;
     top: 14px;
@@ -288,7 +265,6 @@ body {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.08); box-shadow: 0 4px 25px rgba(196,75,107,0.6); }
 }
-
 .catalog__info {
     padding: 18px 20px 22px;
 }
@@ -346,10 +322,6 @@ body {
     transform: scale(1.05) translateY(-2px);
     box-shadow: 0 8px 30px rgba(196,75,107,0.4);
 }
-
-/* ============================================
-   SECTIONS (Contact / Messages)
-   ============================================ */
 .section {
     display: none;
     text-align: center;
@@ -366,7 +338,6 @@ body {
     from { opacity: 0; transform: translateY(20px) scale(0.98); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 .section__title {
     font-size: 28px;
     font-weight: 800;
@@ -378,8 +349,6 @@ body {
     font-size: 16px;
     margin-bottom: 24px;
 }
-
-/* Social */
 .social {
     display: flex;
     flex-direction: column;
@@ -412,13 +381,11 @@ body {
     width: 24px;
     height: 24px;
     fill: currentColor;
-    flex-shrink: 0;
 }
 .social__link--telegram { background: #0088cc; }
 .social__link--instagram { background: #e1306c; }
 .social__link--whatsapp { background: #25d366; }
 
-/* Messages */
 .messages {
     max-width: 600px;
     margin: 0 auto;
@@ -461,7 +428,6 @@ body {
     background: var(--color-primary-dark);
     transform: scale(1.03);
 }
-
 .messages__list {
     max-height: 400px;
     overflow-y: auto;
@@ -472,7 +438,6 @@ body {
 }
 .messages__list::-webkit-scrollbar { width: 4px; }
 .messages__list::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
-
 .messages__item {
     background: var(--color-border);
     padding: 14px 18px;
@@ -492,10 +457,6 @@ body {
     color: var(--color-text-light);
     margin-left: 10px;
 }
-
-/* ============================================
-   MODALS
-   ============================================ */
 .modal {
     position: fixed;
     inset: 0;
@@ -508,8 +469,6 @@ body {
 .modal.active {
     display: flex;
 }
-
-/* Image Modal */
 .modal--image {
     background: rgba(0,0,0,0.85);
     backdrop-filter: blur(12px);
@@ -533,8 +492,6 @@ body {
     object-fit: contain;
     display: block;
 }
-
-/* Order Modal */
 .modal--order {
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(8px);
@@ -625,10 +582,6 @@ body {
     font-size: 14px;
     color: var(--color-text-secondary);
 }
-
-/* ============================================
-   TOAST
-   ============================================ */
 #toast {
     position: fixed;
     bottom: 30px;
@@ -652,10 +605,6 @@ body {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 @media (max-width: 768px) {
     body { padding: 16px 12px; }
     .header { flex-direction: column; align-items: start; gap: 12px; }
@@ -675,7 +624,6 @@ body {
     .messages__input button { font-size: 13px; padding: 10px 20px; }
     #toast { font-size: 13px; padding: 12px 24px; white-space: normal; max-width: 90%; }
 }
-
 @media (max-width: 480px) {
     .catalog { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
     .catalog__img { height: 200px; }
@@ -691,7 +639,6 @@ body {
 </head>
 <body>
     <div class="container">
-        <!-- HEADER -->
         <header class="header">
             <div class="header__logo">
                 <span class="header__logo-icon">✦</span>
@@ -712,17 +659,14 @@ body {
             </div>
         </header>
 
-        <!-- NAVIGATION -->
         <nav class="nav">
             <button class="nav__link active" data-section="services">Xizmatlar</button>
             <button class="nav__link" data-section="contact">Bog'lanish</button>
             <button class="nav__link" data-section="messages">Xabarlar</button>
         </nav>
 
-        <!-- CATALOG -->
         <section class="catalog" id="catalogGrid"></section>
 
-        <!-- CONTACT -->
         <section class="section section--contact" id="contactSection">
             <h2 class="section__title" id="contactTitle">📬 Biz bilan bog'lanish</h2>
             <p class="section__desc" id="contactDesc">24/7 onlayn — ijtimoiy tarmoqlar orqali bizga yozing</p>
@@ -742,7 +686,6 @@ body {
             </div>
         </section>
 
-        <!-- MESSAGES -->
         <section class="section section--messages" id="messagesSection">
             <h2 class="section__title" id="messagesTitle">💬 Xabarlar</h2>
             <p class="section__desc" id="messagesDesc">Hamma ko'radi — fikringizni yozing</p>
@@ -757,7 +700,6 @@ body {
         </section>
     </div>
 
-    <!-- MODALS -->
     <div class="modal modal--image" id="imageModal">
         <div class="modal__content modal__content--image">
             <button class="modal__close" id="imageModalClose">✕</button>
@@ -782,12 +724,25 @@ body {
 
     <div id="toast"></div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script>
-      /* ============================================
-   DATA
-   ============================================ */
+      const firebaseConfig = {
+    apiKey: "AIzaSyD3c6fEn8wATY8K1x0pUzIxatU0Oam",
+    authDomain: "joraboyevstudio-c7c0e.firebaseapp.com",
+    databaseURL: "https://joraboyevstudio-c7c0e-default-rtdb.firebaseio.com",
+    projectId: "joraboyevstudio-c7c0e",
+    storageBucket: "joraboyevstudio-c7c0e.firebasestorage.app",
+    messagingSenderId: "876944320718",
+    appId: "1b769444320718:web:98008738a6269a0f5c8f9f",
+    measurementId: "G-ST2H256853"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 const products = [
-    { id: 1, name: "With Love", desc: "Lisa tercinta uchun maxsus dizayn", price: 2.99, oldPrice: 5, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778627086/IMG_3357_b6yk8r.jpg", badge: "Romantic" },
+  { id: 1, name: "With Love", desc: "Lisa tercinta uchun maxsus dizayn", price: 2.99, oldPrice: 5, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778627086/IMG_3357_b6yk8r.jpg", badge: "Romantic" },
     { id: 2, name: "TAP EACH CANDLE", desc: "us that one summer — interaktiv sham", price: 3, oldPrice: 10, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778254234/IMG_3292_imwa5x.jpg", badge: "Birthday" },
     { id: 3, name: "BRANKAS RAHASIA", desc: "STATUS: TERKUNCI — maxfiy xabar", price: 5, oldPrice: 10, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1772636369/122_j62oma.jpg", badge: "Exclusive" },
     { id: 4, name: "Love 3D", desc: "Interaktiv 3D sevgi kartasi", price: 1.99, oldPrice: 3, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1773268826/love3d-preview_uubog2.jpg", badge: "Popular" },
@@ -807,12 +762,9 @@ const products = [
     { id: 18, name: "Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 0.99, oldPrice: 5, image: "daraxt.jpg", badge: "Animation" },
     { id: 19, name: "Message-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 1.99, oldPrice: 5, image: "xat.jpg", badge: "Message-Animation" },
     { id: 20, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kviz.jpg", badge: "Love-Animation" },
-    { id: 21, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kvizz.jpg", badge: "Love-Animation" },
+    { id: 21, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kvizz.jpg", badge: "Love-Animation" },  
 ];
 
-/* ============================================
-   TRANSLATIONS
-   ============================================ */
 const translations = {
     uz: {
         services: "Xizmatlar", contact: "Bog'lanish", messages: "Xabarlar",
@@ -843,15 +795,8 @@ const translations = {
     }
 };
 
-/* ============================================
-   STATE
-   ============================================ */
 let currentLang = 'uz';
-let messages = JSON.parse(localStorage.getItem('joraboyev_messages')) || [];
 
-/* ============================================
-   DOM REFS
-   ============================================ */
 const $ = id => document.getElementById(id);
 const grid = $('catalogGrid');
 const contactSection = $('contactSection');
@@ -863,9 +808,6 @@ const msgTextInput = $('msgTextInput');
 const sendMsgBtn = $('sendMsgBtn');
 const messagesList = $('messagesList');
 
-/* ============================================
-   LANGUAGE
-   ============================================ */
 function setLanguage(lang) {
     currentLang = lang;
     const t = translations[lang];
@@ -890,9 +832,6 @@ function setLanguage(lang) {
     window._lang = lang;
 }
 
-/* ============================================
-   RENDER CATALOG
-   ============================================ */
 function renderCatalog() {
     const t = translations[currentLang];
     grid.innerHTML = products.map(p => `
@@ -912,7 +851,6 @@ function renderCatalog() {
         </div>
     `).join('');
 
-    // Click on card → image modal
     document.querySelectorAll('.catalog__item').forEach(card => {
         card.addEventListener('click', function(e) {
             if (e.target.closest('.catalog__btn')) return;
@@ -921,7 +859,6 @@ function renderCatalog() {
         });
     });
 
-    // Click on buy button → order modal
     document.querySelectorAll('.catalog__btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
@@ -932,9 +869,6 @@ function renderCatalog() {
     });
 }
 
-/* ============================================
-   IMAGE MODAL
-   ============================================ */
 function openImageModal(src) {
     const modal = $('imageModal');
     $('imageModalImg').src = src;
@@ -951,9 +885,6 @@ $('imageModal').addEventListener('click', function(e) {
     if (e.target === this) closeImageModal();
 });
 
-/* ============================================
-   ORDER MODAL
-   ============================================ */
 function openOrderModal(product) {
     const modal = $('orderModal');
     $('orderProduct').value = product.name;
@@ -976,9 +907,6 @@ $('orderModal').addEventListener('click', function(e) {
     if (e.target === this) closeOrderModal();
 });
 
-/* ============================================
-   SUBMIT ORDER → TELEGRAM
-   ============================================ */
 $('orderSubmitBtn').addEventListener('click', function() {
     const productName = $('orderProduct').value;
     const phone = $('orderPhone').value.trim();
@@ -1010,9 +938,6 @@ $('orderSubmitBtn').addEventListener('click', function() {
         .finally(() => { this.disabled = false; });
 });
 
-/* ============================================
-   TELEGRAM API
-   ============================================ */
 function sendToTelegram(productName, phone, instagram, telegram) {
     const BOT_TOKEN = '8912156855:AAHY4PH_KvCugEXXhUUNQb-LH0xPNEXgjoM';
     const CHAT_ID = '7693382845';
@@ -1035,9 +960,6 @@ function sendToTelegram(productName, phone, instagram, telegram) {
     });
 }
 
-/* ============================================
-   NAVIGATION
-   ============================================ */
 function switchToServices() {
     grid.classList.remove('hidden');
     contactSection.classList.remove('active');
@@ -1072,24 +994,24 @@ navLinks.forEach(btn => {
     });
 });
 
-/* ============================================
-   MESSAGES
-   ============================================ */
 function renderMessages() {
-    messagesList.innerHTML = messages.map(msg => `
-        <div class="messages__item">
-            <span class="msg-name">${escapeHtml(msg.name)}</span>
-            ${escapeHtml(msg.text)}
-            <span class="msg-time">${msg.time}</span>
-        </div>
-    `).join('');
-    messagesList.scrollTop = messagesList.scrollHeight;
-}
-
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
+    database.ref('messages').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (!data) {
+            messagesList.innerHTML = '<p style="text-align:center;color:#94a3b8;padding:20px;">Hozircha xabarlar yo‘q</p>';
+            return;
+        }
+        const messagesArray = Object.values(data);
+        messagesArray.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+        messagesList.innerHTML = messagesArray.map(msg => `
+            <div class="messages__item">
+                <span class="msg-name">${escapeHtml(msg.name || 'Anonim')}</span>
+                ${escapeHtml(msg.text)}
+                <span class="msg-time">${msg.time || ''}</span>
+            </div>
+        `).join('');
+        messagesList.scrollTop = messagesList.scrollHeight;
+    });
 }
 
 sendMsgBtn.addEventListener('click', function() {
@@ -1099,18 +1021,33 @@ sendMsgBtn.addEventListener('click', function() {
         showToast('Iltimos, ism va xabarni kiriting.', 'error');
         return;
     }
-    const newMsg = { name, text, time: new Date().toLocaleString() };
-    messages.push(newMsg);
-    localStorage.setItem('joraboyev_messages', JSON.stringify(messages));
-    renderMessages();
-    msgNameInput.value = '';
-    msgTextInput.value = '';
-    showToast('Xabar yuborildi!');
+    const newMsg = {
+        name: name,
+        text: text,
+        time: new Date().toLocaleString(),
+        timestamp: Date.now()
+    };
+    database.ref('messages').push(newMsg)
+        .then(() => {
+            msgNameInput.value = '';
+            msgTextInput.value = '';
+            showToast('Xabar yuborildi!');
+        })
+        .catch(err => {
+            showToast('Xatolik: ' + err.message, 'error');
+        });
 });
 
-/* ============================================
-   TOAST
-   ============================================ */
+msgTextInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMsgBtn.click();
+});
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 function showToast(msg, type = 'success') {
     toast.textContent = msg;
     toast.className = 'show';
@@ -1119,9 +1056,6 @@ function showToast(msg, type = 'success') {
     toast._timer = setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-/* ============================================
-   LANGUAGE DROPDOWN
-   ============================================ */
 const langBtn = $('langBtn');
 const langMenu = $('langMenu');
 const langArrow = $('langArrow');
@@ -1151,9 +1085,6 @@ langItems.forEach(item => {
     });
 });
 
-/* ============================================
-   INIT
-   ============================================ */
 setLanguage('uz');
 renderCatalog();
 renderMessages();
