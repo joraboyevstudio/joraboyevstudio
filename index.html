@@ -309,7 +309,7 @@ firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 // ============================================================
-//  21 TA MAHSULOT (FAYL ICHIDAGI NOMLAR BILAN)
+//  21 TA MAHSULOT
 // ============================================================
 const products = [
     { id: 1, name: "With Love", desc: "Lisa tercinta uchun maxsus dizayn", price: 2.99, oldPrice: 5, image: "https://res.cloudinary.com/dsscbt1sr/image/upload/v1778627086/IMG_3357_b6yk8r.jpg", badge: "Romantic", views: 0 },
@@ -332,50 +332,51 @@ const products = [
     { id: 18, name: "Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 0.99, oldPrice: 5, image: "daraxt.jpg", badge: "Animation", views: 0 },
     { id: 19, name: "Message-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 1.99, oldPrice: 5, image: "xat.jpg", badge: "Message-Animation", views: 0 },
     { id: 20, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kviz.jpg", badge: "Love-Animation", views: 0 },
-    { id: 21, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kvizz.jpg", badge: "Love-Animation", views: 0 },
-    { id: 11, name: "Mobile-Game", desc: "Maxsus kolleksiya — noyob dizayn", price: 3, oldPrice: 10, image: "oyin.jpg", badge: "Mobile-Game", views: 0 }
+    { id: 21, name: "Love-Animation", desc: "Maxsus kolleksiya — noyob dizayn", price: 3.99, oldPrice: 10, image: "kvizz.jpg", badge: "Love-Animation", views: 0 }
 ];
 
 // ============================================================
 //  TRANSLATIONS
 // ============================================================
 const translations = {
-    uz: {
-        services:"Xizmatlar", contact:"Bog'lanish", messages:"Xabarlar", profile:"Profil",
+    uz: { services:"Xizmatlar", contact:"Bog'lanish", messages:"Xabarlar", profile:"Profil",
         contactTitle:"📬 Biz bilan bog'lanish", contactDesc:"24/7 onlayn — ijtimoiy tarmoqlar orqali bizga yozing",
         messagesTitle:"💬 Xabarlar", messagesDesc:"Hamma ko'radi — fikringizni yozing",
         buyBtn:"Buyurtma berish",
         modalTitle:"📝 Buyurtma berish", modalDesc:"Iltimos, ma'lumotlaringizni kiriting",
         placeholders:{ msg:"Xabar yozing...", phone:"📞 Telefon raqam", instagram:"📸 Instagram username", telegram:"✈️ Telegram username", search:"🔍 Qidirish..." },
         langLabel:"🇺🇿 O'zbekcha", orderBtn:"✅ Buyurtma berish", closeBtn:"Yopish",
-        toastOrder:"✅ Buyurtma qabul qilindi! Tez orada bog'lanamiz."
-    },
-    en: {
-        services:"Services", contact:"Contact", messages:"Messages", profile:"Profile",
+        toastOrder:"✅ Buyurtma qabul qilindi! Tez orada bog'lanamiz." },
+    en: { services:"Services", contact:"Contact", messages:"Messages", profile:"Profile",
         contactTitle:"📬 Contact Us", contactDesc:"24/7 online — reach us via social media",
         messagesTitle:"💬 Messages", messagesDesc:"Everyone can see — share your thoughts",
         buyBtn:"Order Now",
         modalTitle:"📝 Place Order", modalDesc:"Please enter your details",
         placeholders:{ msg:"Write a message...", phone:"📞 Phone number", instagram:"📸 Instagram username", telegram:"✈️ Telegram username", search:"🔍 Search..." },
         langLabel:"🇬🇧 English", orderBtn:"✅ Place Order", closeBtn:"Close",
-        toastOrder:"✅ Order received! We'll contact you shortly."
-    },
-    ru: {
-        services:"Услуги", contact:"Контакты", messages:"Сообщения", profile:"Профиль",
+        toastOrder:"✅ Order received! We'll contact you shortly." },
+    ru: { services:"Услуги", contact:"Контакты", messages:"Сообщения", profile:"Профиль",
         contactTitle:"📬 Свяжитесь с нами", contactDesc:"24/7 онлайн — напишите нам в соцсетях",
         messagesTitle:"💬 Сообщения", messagesDesc:"Все видят — напишите свое мнение",
         buyBtn:"Заказать",
         modalTitle:"📝 Оформить заказ", modalDesc:"Пожалуйста, введите ваши данные",
         placeholders:{ msg:"Напишите сообщение...", phone:"📞 Номер телефона", instagram:"📸 Instagram username", telegram:"✈️ Telegram username", search:"🔍 Поиск..." },
         langLabel:"🇷🇺 Русский", orderBtn:"✅ Заказать", closeBtn:"Закрыть",
-        toastOrder:"✅ Заказ принят! Мы свяжемся с вами."
-    }
+        toastOrder:"✅ Заказ принят! Мы свяжемся с вами." }
 };
 
 let currentLang = 'uz';
 let currentUserName = null;
 let currentProductId = null;
-const ADMIN_NAME = ['joraboyevstudio', 'admin']
+
+// ============================================================
+//  ADMIN NOMLARI (faqat shu nomlar galichka oladi)
+// ============================================================
+const ADMIN_NAMES = ['joraboyevstudio', 'admin'];
+
+// ============================================================
+//  TAQIQLANGAN NOMLAR (profil ochilmaydi)
+// ============================================================
 const FORBIDDEN_NAMES = [
     'administrator', 'joraboyev', 'boyev',
     'studio', 'jorayev', 'yordamchi', 'jo\'raboyev', 'jo\'rayev',
@@ -394,7 +395,7 @@ const sendMsgBtn = $('sendMsgBtn');
 const messagesList = $('messagesList');
 const searchInput = $('searchInput');
 const userProfileBtn = $('userProfileBtn');
-
+const registerPrompt = $('registerPrompt');
 const registerBtn = $('registerBtn');
 const registerModal = $('registerModal');
 const registerNameInput = $('registerNameInput');
@@ -410,14 +411,37 @@ const profileOrders = $('profileOrders');
 currentUserName = localStorage.getItem('joraboyev_username');
 const userRegistered = localStorage.getItem('joraboyev_registered') === 'true';
 
+// ============================================================
+//  ADMIN NOMLARNI FIREBASE DA TEKSHIRISH
+// ============================================================
+function isAdminNameTaken(name) {
+    return new Promise((resolve) => {
+        database.ref('adminUsers/' + name.toLowerCase()).once('value', snap => {
+            resolve(snap.exists());
+        });
+    });
+}
+
+function registerAdminName(name) {
+    return database.ref('adminUsers/' + name.toLowerCase()).set({
+        name: name,
+        registeredAt: Date.now()
+    });
+}
+
+// ============================================================
+//  UPDATE UI
+// ============================================================
 function updateUI() {
     if (currentUserName && userRegistered) {
         userProfileBtn.style.display = 'inline-block';
+        registerPrompt.style.display = 'none';
         registerBtn.style.display = 'none';
         profileName.textContent = currentUserName;
         updateProfileStats();
     } else {
         userProfileBtn.style.display = 'none';
+        registerPrompt.style.display = 'block';
         registerBtn.style.display = 'inline-block';
         profileName.textContent = 'Ro\'yxatdan o\'tmagan';
     }
@@ -436,18 +460,33 @@ registerModalClose.addEventListener('click', closeRegisterModal);
 registerModalCloseBtn.addEventListener('click', closeRegisterModal);
 registerModal.addEventListener('click', function(e) { if (e.target === this) closeRegisterModal(); });
 
-registerSubmitBtn.addEventListener('click', function() {
+registerSubmitBtn.addEventListener('click', async function() {
     const name = registerNameInput.value.trim();
     if (!name) { showToast('Iltimos, ismingizni kiriting.', 'error'); return; }
-    // Taqiqlangan nomlarni tekshirish (katta-kichik harf farqi yo'q)
+    
     const lowerName = name.toLowerCase();
+    
+    // 1. Taqiqlangan nomlar
     for (let forbidden of FORBIDDEN_NAMES) {
         if (lowerName === forbidden.toLowerCase()) {
             showToast('Bu nomdan foydalanish mumkin emas!', 'error');
             return;
         }
     }
+    
+    // 2. Admin nomlarini tekshirish (faqat joraboyevstudio va admin uchun)
+    if (ADMIN_NAMES.some(admin => lowerName === admin.toLowerCase())) {
+        const taken = await isAdminNameTaken(lowerName);
+        if (taken) {
+            showToast('Bu admin nomi allaqachon band!', 'error');
+            return;
+        }
+        // Agar band bo'lmasa, ro'yxatdan o'tkazish va adminUsers ga yozish
+        await registerAdminName(lowerName);
+    }
+    
     if (userRegistered) { showToast('Siz allaqachon ro\'yxatdan o\'tgansiz!', 'error'); return; }
+    
     currentUserName = name;
     localStorage.setItem('joraboyev_username', name);
     localStorage.setItem('joraboyev_registered', 'true');
@@ -500,7 +539,7 @@ function renderCatalog(filter = '') {
     if (filter) {
         filtered = products.filter(p => 
             p.name.toLowerCase().includes(filter.toLowerCase()) || 
-            p.desc.toLowerCase().includes(filter.toLowerCase()) ||
+            p.desc.toLowerCase().includes(filter.toLowerCase()) || 
             p.badge.toLowerCase().includes(filter.toLowerCase())
         );
     }
@@ -612,7 +651,7 @@ $('orderSubmitBtn').addEventListener('click', function() {
 function sendToTelegram(productName, phone, instagram, telegram) {
     const BOT_TOKEN = '8912156855:AAHY4PH_KvCugEXXhUUNQb-LH0xPNEXgjoM';
     const CHAT_ID = '7693382845';
-    let message = `🛒 YANGI BUYURTMA!\n\n📦 Mahsulot: ${productName}\n📞 Telefon: ${phone}\n📸 Instagram: ${instagram}\n✈️ Telegram: ${telegram}\n⏰ Vaqt: ${new Date().toLocaleString()}`;
+    const message = `🛒 YANGI BUYURTMA!\n\n📦 Mahsulot: ${productName}\n📞 Telefon: ${phone}\n📸 Instagram: ${instagram}\n✈️ Telegram: ${telegram}\n⏰ Vaqt: ${new Date().toLocaleString()}`;
     return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -666,6 +705,9 @@ navLinks.forEach(btn => {
     });
 });
 
+// ============================================================
+//  MESSAGES (Xabarlar)
+// ============================================================
 function renderMessages() {
     database.ref('messages').on('value', (snapshot) => {
         const data = snapshot.val();
@@ -674,9 +716,9 @@ function renderMessages() {
             return;
         }
         const messagesArray = Object.entries(data);
-        messagesArray.sort((a,b) => (a[1].timestamp||0) - (b[1].timestamp||0));
+        messagesArray.sort((a, b) => (a[1].timestamp || 0) - (b[1].timestamp || 0));
         messagesList.innerHTML = messagesArray.map(([key, msg]) => {
-            const isAdmin = msg.name && msg.name.toLowerCase() === ADMIN_NAME.toLowerCase();
+            const isAdmin = msg.name && ADMIN_NAMES.some(name => msg.name.toLowerCase() === name.toLowerCase());
             const checkMark = isAdmin ? `<span class="admin-check">✓</span>` : '';
             const replies = msg.replies ? Object.values(msg.replies) : [];
             return `
@@ -686,7 +728,7 @@ function renderMessages() {
                         ${checkMark}
                         <span class="msg-time">${msg.time || ''}</span>
                     </div>
-                    <div class="msg-text">${escapeHtml(msg.text)}</div>
+                    <div class="msg-text">${escapeHtml(msg.text || '')}</div>
                     <div class="msg-actions">
                         <button class="like-btn ${currentUserName && msg.likes && msg.likes[currentUserName] ? 'liked' : ''}" data-key="${key}">❤️ ${msg.likes ? Object.keys(msg.likes).length : 0}</button>
                         <button class="reply-btn" data-key="${key}">💬 Javob</button>
@@ -721,7 +763,7 @@ function renderMessages() {
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                if (!currentUserName || currentUserName.toLowerCase() !== ADMIN_NAME.toLowerCase()) return;
+                if (!currentUserName || !ADMIN_NAMES.some(name => currentUserName.toLowerCase() === name.toLowerCase())) return;
                 if (confirm('Bu xabarni o\'chirmoqchimisiz?')) {
                     database.ref('messages/' + this.dataset.key).remove()
                         .then(() => showToast('✅ Xabar o\'chirildi!'))
@@ -791,6 +833,7 @@ sendMsgBtn.addEventListener('click', function() {
         })
         .catch(err => showToast('Xatolik: ' + err.message, 'error'));
 });
+
 msgTextInput.addEventListener('keypress', function(e) {
     if (e.key === 'Enter') sendMsgBtn.click();
 });
@@ -842,7 +885,7 @@ renderMessages();
 
 console.log('🚀 Sayt ishga tushdi!');
 console.log('📦 Products soni:', products.length);
-console.log('🔐 Admin nomi:', ADMIN_NAME);
+console.log('🔐 Admin nomlari (galichka):', ADMIN_NAMES);
 console.log('📝 Taqiqlangan nomlar:', FORBIDDEN_NAMES);
     </script>
 </body>
